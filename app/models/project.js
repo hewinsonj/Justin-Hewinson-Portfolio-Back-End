@@ -53,7 +53,7 @@ const projectSchema = new mongoose.Schema(
             max: 100,
             default: 0
         },
-        proirity: {
+        priority: {
             required: true,
             type: String,
             enum: ['a', 'b', 'c', 'd', 'e', 'f'] 
