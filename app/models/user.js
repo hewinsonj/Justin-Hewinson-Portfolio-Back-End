@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			unique: true,
-			enum: ['j@gmail.com', 'dudeguy@gmail.com', 'dudelady@gmail.com', 'chocolate@gmail.com', 'bubbletea@gmail.com', 'notyou@gmail.com'],
+			// enum: ['j@gmail.com', 'dudeguy@gmail.com', 'dudelady@gmail.com', 'chocolate@gmail.com', 'bubbletea@gmail.com', 'notyou@gmail.com'],
 		},
 		hashedPassword: {
 			type: String,

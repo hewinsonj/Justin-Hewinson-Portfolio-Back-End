@@ -8,9 +8,9 @@ const mongooseBaseName = 'hewinson-portfolio-api'
 
 // create the mongodb uri for development and test
 const database = {
-	development: `mongodb://localhost/${mongooseBaseName}-development`,
-	// development: `mongodb+srv://mbaum:mongopass1211@cluster0.c4dao92.mongodb.net/${mongooseBaseName}-development?retryWrites=true&w=majority`,
-	// test: `mongodb+srv://mbaum:mongopass1211@cluster0.c4dao92.mongodb.net/${mongooseBaseName}-test?retryWrites=true&w=majority`,
+	// development: `mongodb://localhost/${mongooseBaseName}-development`,
+	development: `mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/${mongooseBaseName}?retryWrites=true&w=majority`,
+	test: `mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/${mongooseBaseName}?retryWrites=true&w=majority`,
 }
 
 // Identify if development environment is test or development
