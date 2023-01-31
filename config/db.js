@@ -8,8 +8,8 @@ const mongooseBaseName = 'hewinson-portfolio-api'
 
 // create the mongodb uri for development and test
 const database = {
-	// development: `mongodb://localhost/${mongooseBaseName}-development`,
-	development: `mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/${mongooseBaseName}?retryWrites=true&w=majority`,
+	development: `mongodb://localhost/${mongooseBaseName}-development`,
+	// development: `mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/${mongooseBaseName}?retryWrites=true&w=majority`,
 	test: `mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/${mongooseBaseName}?retryWrites=true&w=majority`,
 }
 
