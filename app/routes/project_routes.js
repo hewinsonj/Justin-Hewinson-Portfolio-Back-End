@@ -101,18 +101,11 @@ router.get('/projects/mine', requireToken, (req,res,next) => {
 // SHOW 
 // GET (/projects/:id)
 //////////////////
-router.get('/projects/:id', requireToken, (req, res, next) => {
+router.get('/projects/:id', (req, res, next) => {
     Project.findById(req.params.id)
-    .populate('owner')
-    .populate('notes.owner')
     .then(handle404)
     .then(project => {
-        let privateViewableNotes = project.notes.filter((noteObj) => ((noteObj.owner.id == req.user.id)&&(noteObj.private === true)))
-        privateViewableNotes = privateViewableNotes.map(noteObj => ({
-            "text": noteObj.text,
-            "author": noteObj.owner.email
-        }))
-        res.status(200).json({ project: project, publicNotes: project.publicNotes, privateViewableNotes: privateViewableNotes })
+        res.status(200).json({ project: project})
     })
     .catch(next)
 })

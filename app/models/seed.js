@@ -1,13 +1,27 @@
 // added this seed file to test all activity routes
 
 const mongoose = require('mongoose')
-const Activity = require('./activity')
+const Project = require('./project')
 const db = require('../../config/db')
 
-const startActivities = [
-    { activity: 'Take a bubble bath', accessibility: 0.1, type: 'relaxation', participants: 1, price: 0.15, progress: 100 },
-    { activity: 'Clean out sock drawer', accessibility: 0, type: 'busywork', participants: 1, price: 0, progress: 50 },
-    { activity: 'Host a board game night', accessibility: 0.5, type: 'social', participants: 4, price: 0.1, progress: 0},
+const startProjects = [
+    {    
+        projTitle: 'MyTiki App',
+        img1: 'https://i.imgur.com/GWkVhJO.jpg',
+        img2: 'https://i.imgur.com/GWkVhJO.jpg',
+        img3: 'https://i.imgur.com/GWkVhJO.jpg',
+        description: 'MyTiki is an app that provides 10 classictiki cocktail recipes that are available to be viewed by any logged in user. The user is also able to customize any of the provided recipies and add them to their own original cocktails folder, or create their own from scratch! The user also has the ability to filter the shown cocktails by keywords, and add any cocktails they wish to their favorites folder.',
+        finishDate: '09/12/23',
+        startDate: '09/12/23',
+        link1: 'https://www.linkedin.com/in/justin-hewinson/',
+        link2: 'https://www.linkedin.com/in/justin-hewinson/',
+        link3: 'https://www.linkedin.com/in/justin-hewinson/',
+        role: 'Full Stack Dev',
+        client: 'HTML5, CSS, Bootstrap, JavaScript, LiquidJs, Express, MongoDB, Mongoose, Morgan, Bcryptjs',
+        progress: 10,
+        priority: 'a',
+        private: false,
+    },
 ]
 
 // connect to database
@@ -15,13 +29,13 @@ mongoose.connect(db, {
     useNewUrlParser: true
 })
     .then(() => {
-        Activity.deleteMany({ owner: null })
-            .then(deletedActivities => {
-                console.log('deletedActivities', deletedActivities)
+        Project.deleteMany({ owner: null })
+            .then(deletedProjects => {
+                console.log('deletedProjects', deletedProjects)
 
-                Activity.create(startActivities)
-                    .then(newActivities => {
-                        console.log('the new activities', newActivities)
+                Project.create(startProjects)
+                    .then(newProjects => {
+                        console.log('the new Projects', newProjects)
                         mongoose.connection.close()
                     })
                     .catch(error => {
