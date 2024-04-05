@@ -1,15 +1,19 @@
-# fly.toml app configuration file generated for j-hewinson-portfolio-back on 2024-04-04T22:31:05-04:00
+# fly.toml app configuration file generated for hewinsonportfolioapi-blue-sun-9350 on 2024-04-05T00:58:23-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'j-hewinson-portfolio-back'
+app = 'hewinsonportfolioapi'
 primary_region = 'atl'
 
 [build]
 
+[env]
+  CLIENT_ORIGIN = 'https://hewinson-portfolio.netlify.app'
+  PORT = '8080'
+
 [http_service]
-  internal_port = 3000
+  internal_port = 8080
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true

@@ -3,13 +3,15 @@ require("dotenv").config()
 // creating a base name for the mongodb
 // REPLACE THE STRING WITH YOUR OWN DATABASE NAME
 
-const mongooseBaseName = 'hewinson-portfolio-api'
+const mongooseBaseName = "hewinsonportfolioapi";
 
 
 // create the mongodb uri for development and test
 const database = {
-	development: `mongodb://localhost/${mongooseBaseName}-development`,
-	// development: `mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/${mongooseBaseName}?retryWrites=true&w=majority`,
+	// development: `mongodb://localhost/${mongooseBaseName}-development`,
+	//  `mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/${mongooseBaseName}?retryWrites=true&w=majority`,
+		production:	`mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/${mongooseBaseName}?retryWrites=true&w=majority&appName=Cluster0`,
+	
 	test: `mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/${mongooseBaseName}?retryWrites=true&w=majority`,
 }
 
