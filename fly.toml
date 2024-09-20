@@ -1,22 +1,17 @@
-# fly.toml app configuration file generated for hewinsonportfolioapi on 2024-04-05T03:41:34-04:00
+# fly.toml app configuration file generated for justin-hewinson-portfolio-back-end on 2024-09-19T22:15:33-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'hewinsonportfolioapi'
+app = 'justin-hewinson-portfolio-back-end'
 primary_region = 'atl'
 
 [build]
 
-[env]
-  CLIENT_ORIGIN = 'https://hewinson-portfolio.netlify.app'
-  MONGODB_URI = 'mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/hewinsonportfolioapi?retryWrites=true&w=majority'
-  PORT = '8080'
-
 [http_service]
   internal_port = 3000
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
