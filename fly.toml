@@ -1,20 +1,49 @@
-# fly.toml app configuration file generated for justin-hewinson-portfolio-back-end on 2024-09-19T22:15:33-04:00
+# fly.toml app configuration file generated for hewinsonportfolioapi on 2024-09-24T01:10:04-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'justin-hewinson-portfolio-back-end'
+app = 'hewinsonportfolioapi'
 primary_region = 'atl'
+kill_signal = 'SIGINT'
+kill_timeout = '5s'
 
-[build]
+[experimental]
+  auto_rollback = true
 
-[http_service]
-  internal_port = 3000
-  force_https = true
-  auto_stop_machines = 'stop'
-  auto_start_machines = true
-  min_machines_running = 0
+# [build]
+#   builder = 'heroku/buildpacks:20'
+  [build]
+builder = "heroku/builder:22"
+
+[env]
+  CLIENT_ORIGIN = 'https://hewinson-portfolio.netlify.app'
+  MONGODB_URI = 'mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/hewinsonportfolioapi?retryWrites=true&w=majority&appName=Cluster0'
+  PORT = '8080'
+
+[[services]]
+  protocol = 'tcp'
+  internal_port = 8080
   processes = ['app']
+
+  [[services.ports]]
+    port = 80
+    handlers = ['http']
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ['tls', 'http']
+
+  [services.concurrency]
+    type = 'connections'
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.tcp_checks]]
+    interval = '15s'
+    timeout = '2s'
+    grace_period = '1s'
 
 [[vm]]
   memory = '1gb'
