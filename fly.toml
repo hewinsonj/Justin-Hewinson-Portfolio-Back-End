@@ -11,8 +11,6 @@ kill_timeout = '5s'
 [experimental]
   auto_rollback = true
 
-# [build]
-#   builder = 'heroku/buildpacks:20'
   [build]
 builder = "heroku/builder:22"
 
