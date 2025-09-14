@@ -1,6 +1,7 @@
 // require necessary NPM packages
 const express = require("express");
 const mongoose = require("mongoose");
+mongoose.set('strictQuery', true);
 const cors = require("cors");
 
 // require route files
@@ -33,22 +34,35 @@ const clientDevPort = 3000;
 // use createIndex instead of deprecated ensureIndex
 mongoose.connect(db, {
   useNewUrlParser: true,
+  serverSelectionTimeoutMS: 5000, // fail fast if Atlas is slow to respond
+  socketTimeoutMS: 45000,
+  maxPoolSize: 10,
+  minPoolSize: 1, // keep a warm connection
 });
 
 // instantiate express application object
 const app = express();
+app.set('trust proxy', true);
+
+// lightweight health check that does not require auth or DB
+app.get('/health', (_req, res) => res.status(200).send('ok'));
 
 // set CORS headers on response from this API using the `cors` NPM package
 // `CLIENT_ORIGIN` is an environment variable that will be set on Heroku
-app.use(
-  cors({
-    origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`,
-  })
-);
+const corsOptions = {
+  origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}`,
+  credentials: true,
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+// Explicitly handle preflight for all routes
+app.options('*', cors(corsOptions));
 
 // define port for API to run on
 // adding PORT= to your env file will be necessary for deployment
-const port = process.env.PORT || serverDevPort;
+const port = process.env.PORT || 8080;
 
 // this middleware makes it so the client can use the Rails convention
 // of `Authorization: Token token=<token>` OR the Express convention of
@@ -82,7 +96,7 @@ app.use(noteRoutes);
 app.use(errorHandler);
 
 // run API on designated port (4741 in this case)
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log("listening on port " + port);
 });
 

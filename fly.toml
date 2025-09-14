@@ -1,49 +1,100 @@
-# fly.toml app configuration file generated for hewinsonportfolioapi on 2024-09-24T01:10:04-04:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
+# # fly.toml app configuration file generated for hewinsonportfolioapi on 2024-09-24T01:10:04-04:00
+# #
+# # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+# #
 
-app = 'hewinsonportfolioapi'
-primary_region = 'atl'
-kill_signal = 'SIGINT'
-kill_timeout = '5s'
+# app = 'hewinsonportfolioapi'
+# primary_region = 'atl'
+# kill_signal = 'SIGINT'
+# kill_timeout = '5s'
+
+# [experimental]
+#   auto_rollback = true
+
+#   [build]
+# builder = "heroku/builder:22"
+
+# [env]
+#   CLIENT_ORIGIN = 'https://hewinson-portfolio.netlify.app'
+#   PORT = '8080'
+
+# [[services]]
+#   protocol = 'tcp'
+#   internal_port = 8080
+#   processes = ['app']
+
+#   [[services.ports]]
+#     port = 80
+#     handlers = ['http']
+#     force_https = true
+
+#   [[services.ports]]
+#     port = 443
+#     handlers = ['tls', 'http']
+
+#   [services.concurrency]
+#     type = 'connections'
+#     hard_limit = 25
+#     soft_limit = 20
+
+#   [[services.tcp_checks]]
+#     interval = '15s'
+#     timeout = '2s'
+#     grace_period = '1s'
+
+# [[vm]]
+#   memory = '1gb'
+#   cpu_kind = 'shared'
+#   cpus = 1
+
+
+app = "hewinsonportfolioapi"
+primary_region = "atl"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
 
 [experimental]
   auto_rollback = true
 
-  [build]
-builder = "heroku/builder:22"
+[build]
+  dockerfile = "Dockerfile"
 
 [env]
-  CLIENT_ORIGIN = 'https://hewinson-portfolio.netlify.app'
-  MONGODB_URI = 'mongodb+srv://frenchfry:frenchfry@cluster0.4tmzof4.mongodb.net/hewinsonportfolioapi?retryWrites=true&w=majority&appName=Cluster0'
-  PORT = '8080'
+  PORT = "8080"
+  CLIENT_ORIGIN = "https://hewinson-portfolio.netlify.app"
+  # MONGODB_URI removed — set via secrets
 
-[[services]]
-  protocol = 'tcp'
+[http_service]
   internal_port = 8080
-  processes = ['app']
+  processes = ["app"]
+  auto_stop_machines = false
+  min_machines_running = 1
+  auto_start_machines = true
 
-  [[services.ports]]
+  [[http_service.ports]]
     port = 80
-    handlers = ['http']
+    handlers = ["http"]
     force_https = true
 
-  [[services.ports]]
+  [[http_service.ports]]
     port = 443
-    handlers = ['tls', 'http']
+    handlers = ["tls", "http"]
 
-  [services.concurrency]
-    type = 'connections'
+  [http_service.concurrency]
+    type = "connections"
     hard_limit = 25
     soft_limit = 20
 
-  [[services.tcp_checks]]
-    interval = '15s'
-    timeout = '2s'
-    grace_period = '1s'
+  # If you have GET /health returning 200:
+  [[http_service.checks]]
+    type = "http"
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/health"
 
 [[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
+  memory = "1gb"
+  cpu_kind = "shared"
   cpus = 1
