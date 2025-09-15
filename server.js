@@ -95,10 +95,26 @@ app.use(noteRoutes);
 // passed any error messages from them
 app.use(errorHandler);
 
-// run API on designated port (4741 in this case)
-app.listen(port, '0.0.0.0', () => {
-  console.log("listening on port " + port);
+// run API on designated port (4741 in this case)// Start the server only after Mongo is connected
+function startServer() {
+  app.listen(port, '0.0.0.0', () => {
+    console.log('listening on port ' + port);
+  });
+}
+
+mongoose.connection.on('error', (err) => {
+  console.error('Mongo connection error:', err);
+  // Fail fast on boot if we can’t reach the DB
+  process.exit(1);
 });
+
+// If we’re already connected (e.g., very fast connect), start immediately
+if (mongoose.connection.readyState === 1) {
+  startServer();
+} else {
+  // Otherwise, wait for the first successful connection
+  mongoose.connection.once('open', startServer);
+}
 
 // needed for testing
 module.exports = app;
