@@ -1,7 +1,7 @@
 # syntax = docker/dockerfile:1
 
 # Adjust NODE_VERSION as desired
-ARG NODE_VERSION=18.11.0
+ARG NODE_VERSION=20.12.2
 FROM node:${NODE_VERSION}-slim as base
 
 LABEL fly_launch_runtime="Node.js"
@@ -18,14 +18,17 @@ FROM base as build
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
+    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install node modules
 COPY --link package-lock.json package.json ./
-RUN npm ci
+RUN npm ci --omit=dev
 
 # Copy application code
 COPY --link . .
+
+RUN npm rebuild bcrypt --build-from-source || true
 
 
 # Final stage for app image
@@ -36,4 +39,4 @@ COPY --from=build /app /app
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD [ "npm", "run", "start" ]
+CMD [ "node", "server.js" ]
